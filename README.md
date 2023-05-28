@@ -1,8 +1,9 @@
 ## Setup
 
 -   Clone repository
--   "npm install" in command line to install dependencies
--   "npm run dev" to run the development server
+-   `npm install` to install dependencies
+-   Rename `.env.local.example` file to `.env.local` and add `NEXT_PUBLIC_BASE_URL=http://localhost:3000`
+-   `npm run dev` to run the development server
 -   Open http://localhost:3000 in browser
 
 ## Top 3 design choices/trade offs

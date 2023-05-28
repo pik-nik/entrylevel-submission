@@ -6,7 +6,7 @@ export default function Filters({ handleChange }) {
             <select
                 name="short_title"
                 id="short_title"
-                className="border-gray border-2 text-sm cursor-pointer rounded-md"
+                className="border-gray border-2 text-sm cursor-pointer rounded-md text-black"
                 onChange={handleChange}
             >
                 <option value="">--select option--</option>
@@ -20,7 +20,7 @@ export default function Filters({ handleChange }) {
             <select
                 name="status"
                 id="status"
-                className="border-gray border-2 text-sm cursor-pointer rounded-md"
+                className="border-gray border-2 text-sm cursor-pointer rounded-md text-black"
                 onChange={handleChange}
             >
                 <option value="">--select option--</option>

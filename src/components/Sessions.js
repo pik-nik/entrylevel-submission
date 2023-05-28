@@ -15,7 +15,6 @@ export default function Sessions({ sessions }) {
                         displayTitle={program.display_title}
                         startDate={startDate}
                         endDate={endDate}
-                        shortTitle={program.short_title}
                         status={session.status}
                     />
                 ))
