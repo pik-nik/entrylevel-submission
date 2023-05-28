@@ -30,10 +30,10 @@ export default function Programs({ programs }) {
                             <p className="text-xs">
                                 {startDate} - {endDate}
                             </p>
-                            <p className="text-xs">{program.status}</p>
-                            <p className="text-xs">
-                                {program.program[0].short_title}
-                            </p>
+                            <footer className="text-xs flex flex-row justify-between mx-2">
+                                <p>{program.program[0].short_title}</p>
+                                <p>{program.status}</p>
+                            </footer>
                         </div>
                     </article>
                 )

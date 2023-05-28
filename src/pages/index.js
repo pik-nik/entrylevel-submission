@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import Filters from "@/components/Filters.js"
 import Programs from "@/components/Programs"
 
-export default function Home({ data }) {
+export default function Home() {
     const [queries, setQueries] = useState({})
     const [programs, setPrograms] = useState([])
 
@@ -12,14 +12,14 @@ export default function Home({ data }) {
             Object.entries(queries)
                 .map(([key, value]) => `${key}=${value}`)
                 .join("&")
-        console.log(queryString)
         fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sessions${queryString}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data.sessions.length)
-                const programs = data.sessions?.slice(0, 50).sort((a, b) => {
-                    return new Date(b.start_date) - new Date(a.start_date)
-                })
+                const programs = data.sessions
+                    ?.sort((a, b) => {
+                        return new Date(b.start_date) - new Date(a.start_date)
+                    })
+                    .slice(0, 50)
                 setPrograms(programs)
             })
     }, [queries])
@@ -36,12 +36,12 @@ export default function Home({ data }) {
     )
 }
 
-export const getStaticProps = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sessions`)
-    const data = await res.json()
-    return {
-        props: {
-            data,
-        },
-    }
-}
+// export const getStaticProps = async () => {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sessions`)
+//     const data = await res.json()
+//     return {
+//         props: {
+//             data,
+//         },
+//     }
+// }

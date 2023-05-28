@@ -1,4 +1,4 @@
-const databaseURL = `https://api.entrylevel.net/test/sessions`
+const databaseURL = "https://api.entrylevel.net/test/sessions"
 const handler = async (req, res) => {
     const { status, short_title } = req.query || {}
 
@@ -7,14 +7,15 @@ const handler = async (req, res) => {
     let sessions = await response.json()
 
     if (short_title) {
-        sessions = sessions.filter(
-            session => (session.program[0]["short_title"] = short_title)
-        )
+        sessions = sessions.filter(session => {
+            return session.program[0]["short_title"] === short_title
+        })
     }
 
     if (status) {
-        console.log(status)
-        sessions = sessions.filter(session => (session.status = status))
+        sessions = sessions.filter(session => {
+            return session.status === status.toUpperCase()
+        })
     }
 
     res.status(200).json({ sessions })
