@@ -2,7 +2,7 @@ import { shortTitles, statusList } from "../utils/constants"
 export default function Filters({ handleChange }) {
     return (
         <div className="flex flex-row space-x-2 mb-2">
-            <label htmlFor="short_title">Type:</label>
+            <label htmlFor="short_title">Short title:</label>
             <select
                 name="short_title"
                 id="short_title"

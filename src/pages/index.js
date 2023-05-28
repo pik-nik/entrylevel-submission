@@ -1,47 +1,50 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Filters from "@/components/Filters.js"
-import Programs from "@/components/Programs"
+import Sessions from "@/components/Sessions"
+import sortByDate from "@/utils/sortByDate"
 
-export default function Home() {
+async function getSessions(queries = {}) {
+    const queryString =
+        "?" +
+        Object.entries(queries)
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&")
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/sessions${queryString}`
+    )
+    const data = await res.json()
+    return data.sessions?.sort(sortByDate).slice(0, 50)
+}
+
+export default function Home({ data = [] }) {
     const [queries, setQueries] = useState({})
-    const [programs, setPrograms] = useState([])
+    const [sessions, setSessions] = useState(data)
+    const isInitialRender = useRef(true)
 
     useEffect(() => {
-        const queryString =
-            "?" +
-            Object.entries(queries)
-                .map(([key, value]) => `${key}=${value}`)
-                .join("&")
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sessions${queryString}`)
-            .then(res => res.json())
-            .then(data => {
-                const programs = data.sessions
-                    ?.sort((a, b) => {
-                        return new Date(b.start_date) - new Date(a.start_date)
-                    })
-                    .slice(0, 50)
-                setPrograms(programs)
-            })
+        if (isInitialRender.current) {
+            isInitialRender.current = false
+            return
+        }
+        getSessions(queries).then(data => setSessions(data))
     }, [queries])
 
     const handleChange = event => {
         setQueries({ ...queries, [event.target.name]: event.target.value })
     }
     return (
-        <main className="flex min-h-screen flex-col items-center p-24 mx-auto text-center w-11/12">
+        <main className="flex min-h-screen flex-col items-center py-24 mx-auto text-center w-11/12">
             <h1 className="font-bold text-xl mb-5">EntryLevel Programs</h1>
             <Filters handleChange={handleChange} />
-            <Programs programs={programs} />
+            <Sessions sessions={sessions} />
         </main>
     )
 }
 
-// export const getStaticProps = async () => {
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sessions`)
-//     const data = await res.json()
-//     return {
-//         props: {
-//             data,
-//         },
-//     }
-// }
+export const getStaticProps = async () => {
+    return {
+        props: {
+            data: await getSessions(),
+        },
+    }
+}
