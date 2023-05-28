@@ -46,5 +46,6 @@ export const getStaticProps = async () => {
         props: {
             data: await getSessions(),
         },
+        revalidate: 60,
     }
 }
